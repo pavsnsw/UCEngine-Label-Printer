@@ -12,36 +12,45 @@ namespace UCEngine_Label_Printer
     {
         static string deviceType, date, windowsVer, mtrVer, ccsVer, macAddress, slotNo;
         static string templatePath;
-        static string templateName = "PreConfig_UC.lbx";
+        static int noArgs = 8;
 
         static void Main(string[] args)
         {
-            if (VerifyArgs(args))
+            try
             {
-                templatePath = FileManager.FileManager.Instance.TemplateFile(templateName);
-                //Console.WriteLine(templatePath);
+                if (VerifyArgs(args))
+                {
+                    Console.WriteLine($"Printing from template {templatePath}");
 
-                UCEngineLabelWizard wizard = new UCEngineLabelWizard(templatePath);
+                    UCEngineLabelWizard wizard = new UCEngineLabelWizard(templatePath);
 
-                wizard.Print(deviceType, date, windowsVer, mtrVer, ccsVer, macAddress, slotNo);
+                    wizard.Print(deviceType, date, windowsVer, mtrVer, ccsVer, macAddress, slotNo);
+                }
+                else
+                {
+                    Console.WriteLine("Something went wrong - check your arguments");
+                    //Console.Error("Something went wrong - please check your arguments again.");
+                }
             }
-            else
+            catch (Exception e)
             {
-                Console.WriteLine("Error - invalid arguments, please check");
+                Console.Error.WriteLine(e);
             }
+            
         }
 
         static bool VerifyArgs(string[] args)
         {
-            if(args.Length == 7)
+            if(args.Length == noArgs)
             {
-                deviceType = args[0];
-                date = args[1];
-                windowsVer = args[2];
-                mtrVer = args[3];
-                ccsVer = args[4];
-                macAddress = args[5];
-                slotNo = args[6];
+                templatePath = args[0];
+                deviceType = args[1];
+                date = args[2];
+                windowsVer = args[3];
+                mtrVer = args[4];
+                ccsVer = args[5];
+                macAddress = args[6];
+                slotNo = args[7];
 
                 return true;
             }

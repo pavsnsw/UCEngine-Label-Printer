@@ -59,7 +59,7 @@ namespace UCEngine_Label_Printer.LabelPrinter
                 {
                     doc.GetObject(option.Key).Text = option.Value;
                 }
-                catch (NullReferenceException e)
+                catch
                 {
                     throw new NullReferenceException($"Object {option.Key} does not exist.");
                 }
